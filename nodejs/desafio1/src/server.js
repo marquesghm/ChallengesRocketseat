@@ -19,6 +19,8 @@ const server = http.createServer(async (req, res) => {
 
     console.log('query',req.query)
     console.log('params', req.params)
+    console.log('body', req.body)
+    console.log('')
 
     return route.handler(req, res)
   }

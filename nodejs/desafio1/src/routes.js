@@ -1,6 +1,7 @@
 import { Database } from "./database.js"
 import { randomUUID } from 'node:crypto'
 import { buildRoutePath } from "./utils/build-route-path.js"
+import { json } from "./midlewares/json.js"
 
 const database = new Database()
 
@@ -35,5 +36,17 @@ export const routes = [
 
       return res.end("Task created!")
     }
-  }
+  },
+  {
+    method: 'PUT',
+    path: buildRoutePath('/tasks/:id'), // O : quer dizer que o id vai ser dinamico, ou seja, pode receber qualquer valor
+    handler: (req, res) => {
+      const updateResult = database.update('tasks', req.params.id, {
+        title: req.body.title, 
+        description: req.body.description,
+      })
+
+      return res.writeHead(200).end(JSON.stringify(updateResult))
+    }
+  },
 ] 
