@@ -10,6 +10,42 @@ export async function entriesRoutes(app: FastifyInstance) {
     return tables
   })
 
+  app.get('/summary', async () => {
+    const TMR = await knex('entries')
+      .count('*', {
+        as: 'TotalMealRegistered',
+      })
+      .first()
+    const TMInD = await knex('entries')
+      .count('*', {
+        as: 'TotalMealInsideDiet',
+      })
+      .where('stillInDiet', true)
+      .first()
+    const TMOutD = await knex('entries')
+      .count('*', {
+        as: 'TotalMealOutsideDiet',
+      })
+      .where('stillInDiet', false)
+      .first()
+    const BSInD = await knex('entries').select('*')
+    const sequence = []
+    for (const [key, entry] of Object.entries(BSInD)) {
+      if (entry.stillInDiet) sequence.push(entry)
+      else {
+        if (sequence.length > 0) break
+      }
+    }
+
+    const result = {
+      ...TMR,
+      ...TMInD,
+      ...TMOutD,
+      BestSequenceInsideDiet: sequence.length,
+    }
+    return result
+  })
+
   app.get('/entry/:mealId', async (request, reply) => {
     const getEntryParamsSchema = z.object({
       mealId: z.string().uuid(),

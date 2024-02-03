@@ -1,7 +1,7 @@
 ### Regras da aplicação
 - [ ] Deve ser possível criar um usuário (POST)
 - [ ] Deve ser possível identificar o usuário entre as requisições (Cookie)
-- [ ] Deve ser possível registrar uma refeição feita, com as seguintes informações: (POST)
+- [x] Deve ser possível registrar uma refeição feita, com as seguintes informações: (POST)
     *As refeições devem ser relacionadas a um usuário.*
     - Nome
     - Descrição
@@ -11,7 +11,7 @@
 - [ ] Deve ser possível apagar uma refeição (DELETE)
 - [ ] Deve ser possível listar todas as refeições de um usuário (GET)
 - [ ] Deve ser possível visualizar uma única refeição (GET ID)
-- [ ] Deve ser possível recuperar as métricas de um usuário (GET)
+- [x] Deve ser possível recuperar as métricas de um usuário (GET)
     - Quantidade total de refeições registradas
     - Quantidade total de refeições dentro da dieta
     - Quantidade total de refeições fora da dieta
