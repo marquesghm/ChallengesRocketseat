@@ -1,25 +1,15 @@
 import fastify from 'fastify'
-import { knex } from './database'
-import crypto from 'node:crypto'
+import { env } from './env'
+import { entriesRoutes } from './routes/entries'
 
 const app = fastify()
 
-app.get('/entries', async () => {
-  const tables = await knex('entries').select('*')
-  return tables
-})
+app.register(entriesRoutes)
 
-app.get('/add', async () => {
-  const entry = await knex('entries')
-    .insert({
-      meal_id: crypto.randomUUID(),
-      meal_name: 'Janta',
-      stillInDiet: true,
-    })
-    .returning('*')
-  return entry
-})
-
-app.listen({ port: 3000 }).then(() => {
-  console.log('Server Running...')
-})
+app
+  .listen({
+    port: env.PORT,
+  })
+  .then(() => {
+    console.log('Server Running...')
+  })
