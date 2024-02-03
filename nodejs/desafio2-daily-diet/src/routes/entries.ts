@@ -10,6 +10,15 @@ export async function entriesRoutes(app: FastifyInstance) {
     return tables
   })
 
+  app.get('/entry/:mealId', async (request, reply) => {
+    const getEntryParamsSchema = z.object({
+      mealId: z.string().uuid(),
+    })
+    const { mealId } = getEntryParamsSchema.parse(request.params)
+    const entry = await knex('entries').where('meal_id', mealId).first()
+    return { entry }
+  })
+
   app.post('/new_meal', async (request, reply) => {
     // Valida os valores informados no post
     const createEntryBodySchema = z.object({
